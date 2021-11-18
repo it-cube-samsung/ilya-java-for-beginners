@@ -1,4 +1,4 @@
-package com.company;
+package bullsandcows;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -15,7 +15,6 @@ public class Bulls_cows_1 {
     while (true) {
         System.out.println("Ход " + n_move + ":");
         String code = scanner.next();
-        System.out.println("'"+code+"'");
         if (code != "") {
         int bulls = compareCodes(main_code, code);
         if (bulls == len_code) {break;}
