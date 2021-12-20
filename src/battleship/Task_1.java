@@ -1,6 +1,7 @@
 package battleship;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Task_1 {
 
@@ -18,7 +19,7 @@ public class Task_1 {
         } else {
             arrayShips = fleetComposition(2);
         }
-
+        ArrayList<Ship> ships = new ArrayList<>();
         for (int i = 0; i < arrayShips.length; i++) {
             for (int j = 0; j < Integer.parseInt(arrayShips[i].split(" ")[2]); j++) {
                 boolean flagMain = false;
@@ -28,6 +29,10 @@ public class Task_1 {
                     String[] line = scanner.nextLine().split(" ");
                     if (!validation(line[0]) || !(line[1].equals("-") || line[1].equals("|"))) {
                         System.out.println("Вы ввели некорректные данные. Попробуйте снова");
+                        flagMain = true;
+                    }
+                    if (!framesField(line[0], Integer.parseInt(arrayShips[i].split(" ")[1]), line[1])) {
+                        System.out.println("Ваш корабль выходит за границы поляю Попробуйте снова");
                         flagMain = true;
                     }
 
@@ -55,7 +60,7 @@ public class Task_1 {
         }
     }
 
-    static int transformation(String place) {
+    public static int transformation(String place) {
         String letters  = "АБВГДЕЖЗИК";
         return letters.indexOf(place.charAt(0));
     }
@@ -68,10 +73,30 @@ public class Task_1 {
             if (line.substring(0, 1).equals(i)) {
                 flag = true;
             }
-            if (!flag || (Integer.parseInt(line.substring(1)) < 1 || Integer.parseInt(line.substring(1)) > 10)) {
-                flagMain = false;
             }
+        if (!flag || (Integer.parseInt(line.substring(1)) < 1 || Integer.parseInt(line.substring(1)) > 10)) {
+            flagMain = false;
         }
         return flagMain;
+    }
+
+
+    static boolean framesField(String place, int length, String direction) {
+        System.out.println(place);
+        System.out.println(length);
+        System.out.println(direction);
+        int line = Integer.parseInt(place.substring(1));
+        boolean res;
+        int column = transformation(place);
+        if (direction.equals("-")) {
+            if ((column - 1 + length) > 10) {
+                res = false;
+            } else { res = true; }
+        } else {
+            if ((line - 1 + length) > 10) {
+                res = false;
+            } else { res = true; }
+        }
+        return res;
     }
 }
