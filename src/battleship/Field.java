@@ -31,5 +31,18 @@ public class Field {
         }
     }
 
+    public void filling(Ship ship) {
+        for (int i=0;i<ship.coordinates.length;i++) {
+            int line = Integer.parseInt(ship.coordinates[i].substring(1));
+            int column = transformation(ship.coordinates[i].substring(0, 1));
+            this.seaField[line-1][column-1] = 'O';
+
+        }
+    }
+
+    public static int transformation(String place) {
+        String letters  = "АБВГДЕЖЗИК";
+        return letters.indexOf(place.charAt(0)) + 1;
+    }
 
 }

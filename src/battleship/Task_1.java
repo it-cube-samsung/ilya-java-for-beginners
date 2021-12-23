@@ -10,7 +10,6 @@ public class Task_1 {
         System.out.println("Начало");
         String[] arrayShips;
         Scanner scanner = new Scanner(System.in);
-        // Ship ship = new Ship(4, "Авианосец", 5, 6, '-');
         Field my_field = new Field();
         System.out.println("Хотите ли вы играть по классическому составу кораблей(да, нет)?");
         String type = scanner.nextLine();
@@ -22,28 +21,46 @@ public class Task_1 {
         ArrayList<Ship> ships = new ArrayList<>();
         for (int i = 0; i < arrayShips.length; i++) {
             for (int j = 0; j < Integer.parseInt(arrayShips[i].split(" ")[2]); j++) {
-                boolean flagMain = false;
+                boolean flagMain;
                 do {
+                    flagMain = false;
+                    my_field.out();
                     System.out.printf("Введите координаты %sа (%s ячеек):\n",
                             arrayShips[i].split(" ")[0], arrayShips[i].split(" ")[1]);
                     String[] line = scanner.nextLine().split(" ");
+
                     if (!validation(line[0]) || !(line[1].equals("-") || line[1].equals("|"))) {
                         System.out.println("Вы ввели некорректные данные. Попробуйте снова");
                         flagMain = true;
                     }
                     if (!framesField(line[0], Integer.parseInt(arrayShips[i].split(" ")[1]), line[1])) {
-                        System.out.println("Ваш корабль выходит за границы поляю Попробуйте снова");
+                        System.out.println("Ваш корабль выходит за границы поля. Попробуйте снова");
                         flagMain = true;
                     }
-
-                    // try {
-                    //     //my_field.accommodation(4 - i, line[0], line[1].charAt(0));
-                    // } catch (AccomodationException e) {
-                    //     System.out.println("Ошибка! В данное место корабль поставить невозможно. Попробуйте снова:");
-                    //     flagMain = true;
-                    // } finally {
-                    //     my_field.out();
-                    // }
+                    int lin = Integer.parseInt(line[0].substring(1));
+                    int column = transformation(line[0].substring(0, 1));
+                    if (ships.size() == 0) {
+                        Ship ship = new Ship(Integer.parseInt(arrayShips[i].split(" ")[1]),
+                                arrayShips[i].split(" ")[0], lin, column, line[1].charAt(0));
+                        ships.add(ship);
+                        my_field.filling(ship);
+                    } else {
+                        boolean flag = false;
+                        for (int k=0;k<ships.size();k++) {
+                            if (!flag) {
+                               flag = ships.get(k).crossingRect(line[0], Integer.parseInt(arrayShips[i].split(" ")[1]),
+                                       line[1]);}
+                        }
+                        if (!flag){
+                            Ship ship = new Ship(Integer.parseInt(arrayShips[i].split(" ")[1]),
+                                    arrayShips[i].split(" ")[0], lin, column, line[1].charAt(0));
+                            ships.add(ship);
+                            my_field.filling(ship);
+                        } else {
+                            System.out.println("Ваш корабль входит в границы других кораблей. Попробуйте снова");
+                            flagMain = true;
+                        }
+                    }
                 } while (flagMain);
             }
         }
@@ -62,7 +79,7 @@ public class Task_1 {
 
     public static int transformation(String place) {
         String letters  = "АБВГДЕЖЗИК";
-        return letters.indexOf(place.charAt(0));
+        return letters.indexOf(place.charAt(0)) + 1;
     }
 
     static boolean validation(String line){
@@ -82,9 +99,6 @@ public class Task_1 {
 
 
     static boolean framesField(String place, int length, String direction) {
-        System.out.println(place);
-        System.out.println(length);
-        System.out.println(direction);
         int line = Integer.parseInt(place.substring(1));
         boolean res;
         int column = transformation(place);
