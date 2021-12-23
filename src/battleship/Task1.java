@@ -3,14 +3,14 @@ package battleship;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class Task_1 {
+public class Task1 {
 
 
     public static void main(String[] args) {
         System.out.println("Начало");
         String[] arrayShips;
         Scanner scanner = new Scanner(System.in);
-        Field my_field = new Field();
+        Field myField = new Field();
         System.out.println("Хотите ли вы играть по классическому составу кораблей(да, нет)?");
         String type = scanner.nextLine();
         if (type.equals("да")) {
@@ -24,7 +24,7 @@ public class Task_1 {
                 boolean flagMain;
                 do {
                     flagMain = false;
-                    my_field.out();
+                    myField.out();
                     System.out.printf("Введите координаты %sа (%s ячеек):\n",
                             arrayShips[i].split(" ")[0], arrayShips[i].split(" ")[1]);
                     String[] line = scanner.nextLine().split(" ");
@@ -43,7 +43,7 @@ public class Task_1 {
                         Ship ship = new Ship(Integer.parseInt(arrayShips[i].split(" ")[1]),
                                 arrayShips[i].split(" ")[0], lin, column, line[1].charAt(0));
                         ships.add(ship);
-                        my_field.filling(ship);
+                        myField.filling(ship);
                     } else {
                         boolean flag = false;
                         for (int k=0;k<ships.size();k++) {
@@ -55,7 +55,7 @@ public class Task_1 {
                             Ship ship = new Ship(Integer.parseInt(arrayShips[i].split(" ")[1]),
                                     arrayShips[i].split(" ")[0], lin, column, line[1].charAt(0));
                             ships.add(ship);
-                            my_field.filling(ship);
+                            myField.filling(ship);
                         } else {
                             System.out.println("Ваш корабль входит в границы других кораблей. Попробуйте снова");
                             flagMain = true;
