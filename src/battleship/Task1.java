@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 public class Task1 {
 
-
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
     public static void main(String[] args) {
         System.out.println("Начало");
         String[] arrayShips;
@@ -30,11 +31,12 @@ public class Task1 {
                     String[] line = scanner.nextLine().split(" ");
 
                     if (!validation(line[0]) || !(line[1].equals("-") || line[1].equals("|"))) {
-                        System.out.println("Вы ввели некорректные данные. Попробуйте снова");
+                        System.out.println(ANSI_RED + "Вы ввели некорректные данные. Попробуйте снова" + ANSI_RESET);
                         flagMain = true;
+                        continue;
                     }
                     if (!framesField(line[0], Integer.parseInt(arrayShips[i].split(" ")[1]), line[1])) {
-                        System.out.println("Ваш корабль выходит за границы поля. Попробуйте снова");
+                        System.out.println(ANSI_RED + "Ваш корабль выходит за границы поля. Попробуйте снова" + ANSI_RESET);
                         flagMain = true;
                     }
                     int lin = Integer.parseInt(line[0].substring(1));
@@ -57,12 +59,14 @@ public class Task1 {
                             ships.add(ship);
                             myField.filling(ship);
                         } else {
-                            System.out.println("Ваш корабль входит в границы других кораблей. Попробуйте снова");
+                            System.out.println(ANSI_RED + "Ваш корабль входит в границы других кораблей. Попробуйте снова" + ANSI_RESET);
                             flagMain = true;
                         }
                     }
                 } while (flagMain);
             }
+            myField.out();
+            System.out.println("Вы успешно справились с расстановкой кораблей");
         }
 
     }

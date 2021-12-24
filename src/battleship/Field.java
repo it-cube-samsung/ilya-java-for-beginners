@@ -1,10 +1,13 @@
 package battleship;
-import java.util.HashMap;
 import java.sql.Array;
 import java.util.Arrays;
 
 public class Field {
     char[][] seaField = new char[10][10];
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
     Field(){
         for (int i=0; i<10;i++) {
             for (int j=0;j<10;j++) {
@@ -25,7 +28,11 @@ public class Field {
             }
 
             for (int j=0;j<10;j++) {
-                System.out.print(this.seaField[i][j] + " ");
+                if (this.seaField[i][j] == '~') {
+                    System.out.print(ANSI_CYAN_BACKGROUND + this.seaField[i][j] + " " + ANSI_RESET);
+                } else {
+                    System.out.print(ANSI_WHITE_BACKGROUND + this.seaField[i][j] + " " + ANSI_RESET);
+                }
             }
             System.out.println();
         }
